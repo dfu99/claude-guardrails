@@ -19,7 +19,7 @@ Two PreToolUse hooks that run in <1ms before every tool call:
 ## Install
 
 ```bash
-git clone https://github.com/danfu09/claude-guardrails.git
+git clone https://github.com/dfu99/claude-guardrails.git
 cd claude-guardrails
 bash install.sh
 ```
@@ -27,7 +27,7 @@ bash install.sh
 Or one-liner:
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/danfu09/claude-guardrails/main/install.sh)
+bash <(curl -sL https://raw.githubusercontent.com/dfu99/claude-guardrails/main/install.sh)
 ```
 
 ## Commands
