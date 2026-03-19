@@ -1,0 +1,24 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r \".tool_input.file_path // .tool_input.filePath // empty\"); if echo \"$FILE\" | grep -qE \"\\.(env|pem|key|credential|secret)$|secrets/|\\.ssh/|\\.aws/|\\.gnupg/\"; then echo \"{\\\"decision\\\": \\\"block\\\", \\\"reason\\\": \\\"Protected file: $FILE\\\"}\" ; else echo \"{\\\"decision\\\": \\\"approve\\\"}\" ; fi'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'INPUT=$(cat); CMD=$(echo \"$INPUT\" | jq -r \".tool_input.command // empty\"); if echo \"$CMD\" | grep -qP \"rm\\s+-[a-z]*rf[a-z]*\\s+/$|rm\\s+-[a-z]*rf[a-z]*\\s+/\\s|rm\\s+-[a-z]*rf[a-z]*\\s+~$|rm\\s+-[a-z]*rf[a-z]*\\s+~\\s|git\\s+push\\s+--force|git\\s+push\\s+.*-f\\b|DROP\\s+TABLE|DROP\\s+DATABASE|:\\(\\)\\{\\s*:\\|:\\s*&\\s*\\};:\"; then echo \"{\\\"decision\\\": \\\"block\\\", \\\"reason\\\": \\\"Dangerous command blocked: $(echo $CMD | head -c 80)\\\"}\" ; else echo \"{\\\"decision\\\": \\\"approve\\\"}\" ; fi'"
+          }
+        ]
+      }
+    ]
+  }
+}
